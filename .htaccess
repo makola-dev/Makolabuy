@@ -1,0 +1,39 @@
+# Makola .htaccess
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Redirect to index.php if file doesn't exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Prevent directory listing
+Options -Indexes
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Protect sensitive files
+<FilesMatch "^(config|includes|controllers)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Allow access to specific files in protected directories
+<FilesMatch "\.(php|css|js|jpg|jpeg|png|gif|webp|ico)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# PHP Settings
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
+
+# Error Pages (Optional)
+# ErrorDocument 404 /404.php
+# ErrorDocument 500 /500.php
+
